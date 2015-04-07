@@ -69,9 +69,13 @@ st = threading.Thread(target = s.serve_forever)
 st.start()
 
 # This is the part of the code which runs normally in the background
-while True:
-	msg = OSC.OSCMessage()
-	msg.setAddress("/panel/"+str(panelNum))
-	msg.append(counts)
-	panel.send(msg)
-	time.sleep(.1)
+try:
+	while True:
+		msg = OSC.OSCMessage()
+		msg.setAddress("/panel/"+str(panelNum))
+		msg.append(counts)
+		panel.send(msg)
+		time.sleep(.1)
+except KeyboardInterrupt:
+	s.close()
+	st.join
